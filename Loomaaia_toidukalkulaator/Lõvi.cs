@@ -1,4 +1,4 @@
-﻿using Loomaaia_toidukalkulaator;
+using Loomaaia_toidukalkulaator;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,7 +14,6 @@ namespace Loomaaia_toidukalkulaator
 
         public Lõvi(double kaal, int kogus, int vanus)
         {
-            // valideerimine, siin lõvi kaal peab olema vahemikus 0 kuni 400 kg maksimum
             if (kaal <= 0 || kaal >= 400)
             {
                 Console.WriteLine("Viga! Vigane lõvi kaal. Määramiseks valiti vaikimisi 150 kg.");
@@ -26,7 +25,16 @@ namespace Loomaaia_toidukalkulaator
             }
 
             this.Kogus = kogus <= 0 ? 1 : kogus;
-            this.Vanus = vanus < 0 ? 0 : vanus;
+
+            if (vanus < 0 || vanus > 20)
+            {
+                Console.WriteLine("Viga! Lõvi vanus peab olema 0-20 aastat. Määramiseks valiti vaikimisi 5 aastat.");
+                this.Vanus = 5;
+            }
+            else
+            {
+                this.Vanus = vanus;
+            }
         }
 
         public double ArvutaToiduvajadus()
