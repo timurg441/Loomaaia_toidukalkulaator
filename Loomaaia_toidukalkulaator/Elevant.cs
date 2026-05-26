@@ -1,4 +1,4 @@
-﻿using Loomaaia_toidukalkulaator;
+using Loomaaia_toidukalkulaator;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,11 +15,21 @@ namespace Loomaaia_toidukalkulaator
 
         public Elevant(double kaal, double kihvadePikkus, int kogus, int vanus)
         {
-            // valideerimine
             this.Kaal = kaal <= 0 ? 2000 : kaal;
+
             this.KihvadePikkus = kihvadePikkus < 0 ? 0 : kihvadePikkus;
+
             this.Kogus = kogus <= 0 ? 1 : kogus;
-            this.Vanus = vanus < 0 ? 0 : vanus;
+
+            if (vanus < 0 || vanus > 70)
+            {
+                Console.WriteLine("Viga! Elevandi vanus peab olema 0-70 aastat");
+                this.Vanus = 10;
+            }
+            else
+            {
+                this.Vanus = vanus;
+            }
         }
 
         public double ArvutaToiduvajadus()
