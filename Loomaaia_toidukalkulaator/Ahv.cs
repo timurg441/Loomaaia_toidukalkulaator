@@ -1,4 +1,4 @@
-﻿using Loomaaia_toidukalkulaator;
+using Loomaaia_toidukalkulaator;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,10 +14,19 @@ namespace Loomaaia_toidukalkulaator
 
         public Ahv(int banaanideArv, int kogus, int vanus)
         {
-            // valideerimine
             this.BanaanideArvPäevas = banaanideArv < 0 ? 0 : banaanideArv;
+
             this.Kogus = kogus <= 0 ? 1 : kogus;
-            this.Vanus = vanus < 0 ? 0 : vanus;
+
+            if (vanus < 0 || vanus > 40)
+            {
+                Console.WriteLine("Viga! Ahvi vanus peab olema 0-40 aastat. Määramiseks valiti vaikimisi 5 aastat.");
+                this.Vanus = 5;
+            }
+            else
+            {
+                this.Vanus = vanus;
+            }
         }
 
         public double ArvutaToiduvajadus()
