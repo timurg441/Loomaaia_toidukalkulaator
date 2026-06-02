@@ -1,8 +1,7 @@
-﻿using Loomaaia_toidukalkulaator;
+using Loomaaia_toidukalkulaator;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace Loomaaia_toidukalkulaator
 {
@@ -13,8 +12,6 @@ namespace Loomaaia_toidukalkulaator
         static void Main(string[] args)
         {
             List<ILoom> loomadeList = new List<ILoom>();
-
-            // täiendus 2 andmete laadimine failist käivitumisel
             LaadiLoomadFailist(loomadeList);
 
             Console.WriteLine("LOOMAAIA TOIDUKALKULAATOR");
@@ -25,7 +22,6 @@ namespace Loomaaia_toidukalkulaator
                 Console.WriteLine("1 - Lisa Lõvi");
                 Console.WriteLine("2 - Lisa Elevant");
                 Console.WriteLine("3 - Lisa Ahv");
-                Console.WriteLine("4 - Kuva statistika"); // täiendus 3
                 Console.WriteLine("0 - Lõpeta ja salvesta aruanne");
                 Console.Write("Vali number: ");
 
@@ -33,15 +29,8 @@ namespace Loomaaia_toidukalkulaator
 
                 if (valik == "0")
                 {
-                    // täiendus 2 salvestame andmed enne sulgemist faili
                     SalvestaLoomadFaili(loomadeList);
                     break;
-                }
-
-                if (valik == "4")
-                {
-                    KuvaStatistika(loomadeList);
-                    continue;
                 }
 
                 if (valik == "1" || valik == "2" || valik == "3")
@@ -103,12 +92,11 @@ namespace Loomaaia_toidukalkulaator
                 }
             }
 
-            // samm 4 lõpparuanne ja statistika
             Console.WriteLine("\nLÕPPARUANNE");
 
             double koguToiduvajadus = 0;
-            double lihaVajadus = 0;      // täiendus 1
-            double taimneVajadus = 0;    // täiendus 1
+            double lihaVajadus = 0;
+            double taimneVajadus = 0;
 
             foreach (ILoom loom in loomadeList)
             {
@@ -117,7 +105,6 @@ namespace Loomaaia_toidukalkulaator
                 double toiduKulu = loom.ArvutaToiduvajadus();
                 koguToiduvajadus += toiduKulu;
 
-                // täiendus 1 sortimine toidu tüübi järgi
                 if (loom.ToiduTuup == "Liha")
                 {
                     lihaVajadus += toiduKulu;
@@ -135,28 +122,6 @@ namespace Loomaaia_toidukalkulaator
             Console.WriteLine("-------------");
             Console.WriteLine("Programm lõpetas töö edukalt. Vajuta Enter, et sulgeda.");
             Console.ReadLine();
-        }
-
-        static void KuvaStatistika(List<ILoom> loomad)
-        {
-            Console.WriteLine("\nLOOMAAIA STATISTIKA");
-
-            if (loomad.Count == 0)
-            {
-                Console.WriteLine("Statistika kuvamiseks puuduvad andmed! Lisa esmalt loomi.");
-                return;
-            }
-
-            var suurimSoodik = loomad.OrderByDescending(l => l.ArvutaToiduvajadus()).First();
-            Console.Write("Suurima toiduvajadusega grupp või loom: ");
-            suurimSoodik.KuvaInfo();
-
-            var vaikseimSoodik = loomad.OrderBy(l => l.ArvutaToiduvajadus()).First();
-            Console.Write("Väikseima toiduvajadusega grupp või loom: ");
-            vaikseimSoodik.KuvaInfo();
-
-            double keskmineKulu = loomad.Average(l => l.ArvutaToiduvajadus());
-            Console.WriteLine($"Loomagruppide keskmine päevane toidukulu: {keskmineKulu} kg");
         }
 
         static void SalvestaLoomadFaili(List<ILoom> loomad)
